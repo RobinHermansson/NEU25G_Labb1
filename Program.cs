@@ -1,11 +1,50 @@
-﻿string verificationInput = "29535123p48723487597645723645";
+﻿while (true)
+{
+    Console.WriteLine("SELECT ONE OF TWO OPTIONS (1 or 2):\n" +
+        "\n1. Use the default string (29535123p48723487597645723645)" +
+        "\n2. Write your own string.\n");
+    Console.Write("Selection: ");
+    string userSelection = Console.ReadLine();
 
-
-
-PrintPredefinedInGreen(verificationInput);
-Console.WriteLine("__________________________________________________");
-
-Console.WriteLine($"Total = {CalculateTotalValue(verificationInput)}");
+    if (userSelection.Length != 0 ) 
+    { 
+        switch (userSelection)
+        {
+            case "1":
+                string defaultString = "29535123p48723487597645723645";
+                Console.WriteLine("USING DEFAULT STRING");
+                Console.WriteLine("__________________________________________________");
+                PrintFoundPatternInGreen(defaultString);
+                Console.WriteLine("__________________________________________________");
+                Console.WriteLine($"Total = {CalculateTotalValue(defaultString)}");
+                Console.WriteLine();
+                break;
+            case "2":
+                Console.WriteLine("Write the string you want to run the check against: ");
+                string userInput = Console.ReadLine();
+                if (userInput.Length <= 0)
+                {
+                    PrintWarning("You seem to have not inserted anything... Try again");
+                }
+                else
+                {
+                    Console.WriteLine("=============================================");
+                    PrintFoundPatternInGreen(userInput);
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine($"Total = {CalculateTotalValue(userInput)}");
+                    Console.WriteLine();
+                }
+                break;
+            default:
+                PrintWarning("That is not a valid selection. Try again.");
+                break;
+        }
+    }
+    else
+    {
+        PrintWarning("That seems like an invalid input. Try again.");
+    }
+}
 
 static ulong CalculateTotalValue(string input)
 {
@@ -13,10 +52,15 @@ static ulong CalculateTotalValue(string input)
     for (int i = 0; i < input.Length; i++)
     {
         string fullString = "";
-        char currentChar = input[i];
-        int indexOfNextOccurrence = GetIndexOfNextOccurrence(input, i, currentChar);
-        if (indexOfNextOccurrence != 0) 
+        char charToFind = input[i];
+        int indexOfNextOccurrence = GetIndexOfNextOccurrence(input, i, charToFind);
+        if (indexOfNextOccurrence == 0)
         {
+            continue; // The character does not appear more than once.
+        }
+        string substringToCheck = input.Substring(i, indexOfNextOccurrence - i);
+        if (IsValid(substringToCheck)) 
+        {    
             for (int z = 0; z < input.Length; z++)
             {
                 if (z <= indexOfNextOccurrence && z >= i)
@@ -33,20 +77,25 @@ static ulong CalculateTotalValue(string input)
     }
     return sum;
 }
-static void PrintPredefinedInGreen(string input) 
+static void PrintFoundPatternInGreen(string input) 
 { 
     for (int i = 0; i < input.Length; i++)
     {
         char charToFind = input[i];
-        int indexOfNextOccurrence = GetIndexOfNextOccurrence(input, i, charToFind);
-        if (indexOfNextOccurrence != 0) 
+        int indexOfNextOccurrence = GetIndexOfNextOccurrence(text: input, startIndex: i, charToFind: charToFind);
+        if (indexOfNextOccurrence == 0)
+        {
+            continue; // The character does not appear more than once.
+        }
+        string substringToCheck = input.Substring(i, indexOfNextOccurrence - i);
+        if (IsValid(substringToCheck)) 
         {
             for (int z = 0; z < input.Length; z++)
             {
                 char character = input[z];
                 if (z <= indexOfNextOccurrence && z >= i)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(character);
                     Console.ResetColor();
                 }
@@ -60,16 +109,12 @@ static void PrintPredefinedInGreen(string input)
 
     }
 }
+
+// Helper functions
 static int GetIndexOfNextOccurrence(string text, int startIndex, char charToFind)
 {
-    // Interrupts the search for the index if it finds a non-integer in the string.
     for (int i = startIndex; i < text.Length - 1; i++)
     {
-        int parsedValue = 0;
-        if (!int.TryParse(text[i+1].ToString(), out parsedValue))
-        {
-            return 0;
-        }
         char nextChar = text[i+1];
         if (nextChar == charToFind)
         {
@@ -80,3 +125,30 @@ static int GetIndexOfNextOccurrence(string text, int startIndex, char charToFind
     return 0;
 }
 
+static bool IsValid(string input) 
+{
+    for (int i = 0; i < input.Length; i++)
+    {
+        if (!int.TryParse(input[i].ToString(), out int numberOutput))
+        {
+            return false; // Must not contain a non-int.
+        } 
+    }
+    char startChar = input[0]; 
+    for (int y = 1; y < input.Length-1; y++)
+    {
+        if (input[y] == startChar)
+        {
+            return false; // Char within the string must not be the same as the first/last.
+        }
+    }
+    return true;
+}
+
+static void PrintWarning(string text)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(text);
+    Console.ResetColor();
+
+}
