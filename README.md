@@ -17,12 +17,12 @@ Example output for input "29535123p48723487597645723645":
 
 <span style="background-color: red;">2953512</span>3p48723487597645723645<br>
 29<span style="background-color: red;">535</span>123p48723487597645723645<br>
-295<span style="background-color: red;">35123</span>1p48723487597645723645<br>
-29535123p<span style="background-color: red;">48723</span>1487597645723645<br>
-29535123p4<span style="background-color: red;">872348</span>17597645723645<br>
-29535123p48<span style="background-color: red;">723487</span>1597645723645<br>
-29535123p487<span style="background-color: red;">2348759764572</span>13645<br>
-29535123p4872<span style="background-color: red;">3487597645723</span>1645<br>
+295<span style="background-color: red;">35123</span>p48723487597645723645<br>
+29535123p<span style="background-color: red;">48723</span>487597645723645<br>
+29535123p4<span style="background-color: red;">872348</span>7597645723645<br>
+29535123p48<span style="background-color: red;">723487</span>597645723645<br>
+29535123p487<span style="background-color: red;">2348759764572</span>3645<br>
+29535123p4872<span style="background-color: red;">3487597645723</span>645<br>
 29535123p48723<span style="background-color: red;">48759764</span>5723645<br>
 29535123p4872348<span style="background-color: red;">7597</span>645723645<br>
 29535123p48723487<span style="background-color: red;">597645</span>723645<br>

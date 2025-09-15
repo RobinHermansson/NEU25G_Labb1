@@ -13,10 +13,9 @@
             case "1":
                 string defaultString = "29535123p48723487597645723645";
                 Console.WriteLine("USING DEFAULT STRING");
-                Console.WriteLine("__________________________________________________");
-                PrintFoundPatternInGreen(defaultString);
-                Console.WriteLine("__________________________________________________");
-                Console.WriteLine($"Total = {CalculateTotalValue(defaultString)}");
+                Console.WriteLine("=============================================");
+                PrintStringAndCalculateTotal(defaultString);
+                Console.WriteLine("=============================================");
                 Console.WriteLine();
                 break;
             case "2":
@@ -29,9 +28,8 @@
                 else
                 {
                     Console.WriteLine("=============================================");
-                    PrintFoundPatternInGreen(userInput);
+                    PrintStringAndCalculateTotal(userInput);
                     Console.WriteLine("=============================================");
-                    Console.WriteLine($"Total = {CalculateTotalValue(userInput)}");
                     Console.WriteLine();
                 }
                 break;
@@ -46,39 +44,10 @@
     }
 }
 
-static ulong CalculateTotalValue(string input)
+
+static void PrintStringAndCalculateTotal(string input) 
 {
     ulong sum = 0;
-    for (int i = 0; i < input.Length; i++)
-    {
-        string fullString = "";
-        char charToFind = input[i];
-        int indexOfNextOccurrence = GetIndexOfNextOccurrence(input, i, charToFind);
-        if (indexOfNextOccurrence == 0)
-        {
-            continue; // The character does not appear more than once.
-        }
-        string substringToCheck = input.Substring(i, indexOfNextOccurrence - i);
-        if (IsValid(substringToCheck)) 
-        {    
-            for (int z = 0; z < input.Length; z++)
-            {
-                if (z <= indexOfNextOccurrence && z >= i)
-                {
-                    fullString += input[z];
-                }
-            }
-        }
-        if (fullString != "")
-        {
-            ulong value = ulong.Parse(fullString);
-            sum += value;
-        }
-    }
-    return sum;
-}
-static void PrintFoundPatternInGreen(string input) 
-{ 
     for (int i = 0; i < input.Length; i++)
     {
         char charToFind = input[i];
@@ -95,9 +64,7 @@ static void PrintFoundPatternInGreen(string input)
                 char character = input[z];
                 if (z <= indexOfNextOccurrence && z >= i)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(character);
-                    Console.ResetColor();
+                    PrintInGreen(character);
                 }
                 else
                 {
@@ -105,9 +72,11 @@ static void PrintFoundPatternInGreen(string input)
                 }
             }
             Console.WriteLine();
+            sum = CalculateTotalValue(substringToCheck, sum);
         }
-
     }
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"Total: {sum}");
 }
 
 // Helper functions
@@ -145,10 +114,28 @@ static bool IsValid(string input)
     return true;
 }
 
+static ulong CalculateTotalValue(string input, ulong currentSum)
+{
+    if (input != "")
+    {
+            ulong value = ulong.Parse(input);
+            currentSum += value;
+    }
+    return currentSum;
+}
+
 static void PrintWarning(string text)
 {
     Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine(text);
+    Console.ResetColor();
+
+}
+
+static void PrintInGreen(char character)
+{
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write(character);
     Console.ResetColor();
 
 }
