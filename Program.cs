@@ -56,7 +56,7 @@ static void PrintStringAndCalculateTotal(string input)
         {
             continue; // The character does not appear more than once.
         }
-        string substringToCheck = input.Substring(i, indexOfNextOccurrence - i);
+        string substringToCheck = input.Substring(i, indexOfNextOccurrence - i +1);
         if (IsValid(substringToCheck)) 
         {
             for (int z = 0; z < input.Length; z++)
